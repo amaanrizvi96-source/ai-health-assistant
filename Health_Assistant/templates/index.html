@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Health Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <h1>🤖 AI Health Assistant</h1>
+        <p class="sub">Created by <strong>Amaan Abbas</strong> & <strong>Mohd Aman</strong></p>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+        <div class="intro">
+            <h2>Hello User 👋</h2>
+            <p>I hope everything is fine. Please enter your symptoms below 👇</p>
+        </div>
+
+        <form action="/predict" method="post" class="form-box">
+            <input type="text" name="symptoms" placeholder="Enter your symptoms (e.g., fever, cough)" required>
+            <button type="submit">Get Diagnosis</button>
+        </form>
+
+        {% if disease %}
+        <div class="result">
+            <h3>🩺 Possible Disease: <span>{{ disease }}</span></h3>
+            <p><strong>Description:</strong> {{ description }}</p>
+            <p><strong>Precautions:</strong></p>
+            <ul>
+                {% for precaution in precautions %}
+                    <li>{{ precaution }}</li>
+                {% endfor %}
+            </ul>
+            <h3 class="takecare">💖 Take care of yourself and stay healthy!</h3>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2025 | Developed by Amaan Abbas & Mohd Aman | AI Health Assistant Project</p>
+    </footer>
+</body>
+</html>
