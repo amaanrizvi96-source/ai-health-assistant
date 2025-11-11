@@ -43,7 +43,18 @@ disease_data = {
             "Eat light meals.",
             "Consult a doctor if pain is severe or persistent."
         ]
-    }
+    },
+        "malaria": {
+        "disease": "Malaria",
+        "description": "Malaria is caused by Plasmodium parasites transmitted through mosquito bites.",
+        "precautions": [
+            "Sleep under mosquito nets.",
+            "Avoid stagnant water near your home.",
+            "Use mosquito repellents.",
+            "Consult a doctor immediately for a blood test and treatment."
+        ]
+    },
+
 }
 
 @app.route('/')
@@ -85,3 +96,4 @@ def predict():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
