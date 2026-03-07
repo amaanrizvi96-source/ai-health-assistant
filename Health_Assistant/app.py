@@ -75,36 +75,34 @@ def predict():
             result = disease_data[key]
             break
 
-    # If disease found in database
-    if result:
-        message = "🤖 Take care of yourself! Here’s what we found:"
-        greeting = "🌿 Stay healthy and get well soon!"
-        return render_template(
-            'index.html',
-            symptoms=symptoms,
-            disease=result['disease'],
-            description=result['description'],
-            precautions=result['precautions'],
-            message=message,
-            greeting=greeting
-        )
-
-    # If disease not found → Ask AI
-    else:
+   # If disease is found
+if predicted_disease:
     return render_template(
-        'index.html',
+        "index.html",
         symptoms=symptoms,
-        disease="No exact match found",
-        description="Our system could not identify the disease based on the provided symptoms.",
+        disease=predicted_disease,
+        description=description,
+        precautions=precautions,
+        message="Health Assistant Prediction:",
+        greeting="Get well soon!"
+    )
+
+# If no disease matches
+else:
+    return render_template(
+        "index.html",
+        symptoms=symptoms,
+        disease="No disease matched",
+        description="The system could not find a disease matching the provided symptoms.",
         precautions=[
-            "Please consult a doctor for accurate diagnosis.",
-            "Try entering more specific symptoms.",
-            "Maintain proper hydration and rest."
+            "Consult a doctor for proper diagnosis",
+            "Try entering more specific symptoms",
+            "Drink water and get proper rest"
         ],
         message="Health Assistant Suggestion:",
         greeting="Stay safe and take care!"
     )
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
