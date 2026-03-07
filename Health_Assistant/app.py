@@ -86,23 +86,23 @@ if predicted_disease:
         message="Health Assistant Prediction:",
         greeting="Get well soon!"
     )
-
-# If no disease matches
 else:
     return render_template(
         "index.html",
         symptoms=symptoms,
         disease="No disease matched",
-        description="The system could not find a disease matching the provided symptoms.",
+        description="No disease matched the symptoms provided.",
         precautions=[
             "Consult a doctor for proper diagnosis",
             "Try entering more specific symptoms",
-            "Drink water and get proper rest"
+            "Drink plenty of water",
+            "Take proper rest"
         ],
         message="Health Assistant Suggestion:",
         greeting="Stay safe and take care!"
     )
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
 
