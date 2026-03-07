@@ -1,6 +1,9 @@
+import os
+from openai import OpenAI
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
+client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
 # Simple symptom-based knowledge base
 disease_data = {
@@ -84,16 +87,24 @@ def predict():
             greeting=greeting
         )
     else:
-        return render_template(
-            'index.html',
-            symptoms=symptoms,
-            disease="Unknown Condition",
-            description="Sorry, we could not identify the issue. Please consult a doctor.",
-            precautions=["Drink water", "Take rest", "Consult a healthcare provider."],
-            message="🤖 I couldn’t recognize the symptoms.",
-            greeting="Please stay safe and consult a doctor!"
-        )
+    response = client.responses.create(
+        model="gpt-4.1-mini",
+        input=f"A user has these symptoms: {symptoms}. Suggest possible illness and precautions."
+    )
+
+    ai_answer = response.output[0].content[0].text
+
+    return render_template(
+        'index.html',
+        symptoms=symptoms,
+        disease="AI Health Suggestion",
+        description=ai_answer,
+        precautions=["AI generated advice", "Consult a doctor for accurate diagnosis"],
+        message="🤖 AI Health Assistant analysis:",
+        greeting="Stay safe!"
+    )
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
