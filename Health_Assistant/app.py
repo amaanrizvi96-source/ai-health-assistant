@@ -98,11 +98,11 @@ def predict():
         return render_template(
             "index.html",
             symptoms=symptoms,
-            disease="Unknown Disease",
+            disease="Sorry! we'll find soon about this problem",
             description="No matching disease found based on the symptoms provided.",
             precautions=[
                 "Try entering more specific symptoms",
-                "Drink plenty of water",
+                "Don't be panic and Stay calm!",
                 "Take proper rest",
                 "Consult a doctor if symptoms continue"
             ]
@@ -111,4 +111,5 @@ def predict():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
+
 
