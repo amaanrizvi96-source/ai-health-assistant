@@ -1,11 +1,6 @@
-import os
-from openai import OpenAI
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
-
-# Connect to OpenAI using API key from Render
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
 # Simple symptom-based knowledge base
 disease_data = {
@@ -65,44 +60,43 @@ disease_data = {
 def home():
     return render_template('index.html')
 
+
 @app.route('/predict', methods=['POST'])
 def predict():
     symptoms = request.form.get('symptoms', '').lower()
 
     result = None
+
     for key in disease_data:
         if key in symptoms:
             result = disease_data[key]
             break
 
-   # If disease is found
-if predicted_disease:
-    return render_template(
-        "index.html",
-        symptoms=symptoms,
-        disease=predicted_disease,
-        description=description,
-        precautions=precautions,
-        message="Health Assistant Prediction:",
-        greeting="Get well soon!"
-    )
-else:
-    return render_template(
-        "index.html",
-        symptoms=symptoms,
-        disease="No disease matched",
-        description="No disease matched the symptoms provided.",
-        precautions=[
-            "Consult a doctor for proper diagnosis",
-            "Try entering more specific symptoms",
-            "Drink plenty of water",
-            "Take proper rest"
-        ],
-        message="Health Assistant Suggestion:",
-        greeting="Stay safe and take care!"
-    )
+    # If disease found
+    if result:
+        return render_template(
+            "index.html",
+            symptoms=symptoms,
+            disease=result["disease"],
+            description=result["description"],
+            precautions=result["precautions"]
+        )
+
+    # If no disease found
+    else:
+        return render_template(
+            "index.html",
+            symptoms=symptoms,
+            disease="Unknown Disease",
+            description="No matching disease found based on the symptoms provided.",
+            precautions=[
+                "Try entering more specific symptoms",
+                "Drink plenty of water",
+                "Take proper rest",
+                "Consult a doctor if symptoms continue"
+            ]
+        )
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
-
-
-
