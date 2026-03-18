@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-# Simple symptom-based knowledge base
+# Knowledge base
 disease_data = {
     "fever": {
         "disease": "Common Cold or Viral Fever",
@@ -25,92 +25,89 @@ disease_data = {
         ]
     },
     "vomiting": {
-    "disease": "Food Poisoning or Stomach Infection",
-    "description": "Vomiting can occur due to food poisoning, stomach infection, dehydration, or digestive problems.",
-    "precautions": [
-        "Drink small amounts of clean water frequently.",
-        "Avoid oily, spicy, and heavy foods.",
-        "Eat light foods like rice, toast, or bananas.",
-        "Take oral rehydration solution (ORS) if needed.",
-        "Consult a doctor if vomiting continues for more than 24 hours."
-    ]
-},
+        "disease": "Food Poisoning or Stomach Infection",
+        "description": "Vomiting can occur due to food poisoning or digestive problems.",
+        "precautions": [
+            "Drink small amounts of clean water frequently.",
+            "Avoid oily and spicy food.",
+            "Eat light foods like rice or bananas.",
+            "Consult a doctor if it continues for 24 hours."
+        ]
+    },
     "headache": {
         "disease": "Migraine or Tension Headache",
-        "description": "A headache can be caused by stress, dehydration, or eye strain.",
+        "description": "A headache can be caused by stress or dehydration.",
         "precautions": [
-            "Get enough rest and sleep.",
-            "Stay hydrated and avoid bright lights.",
-            "Avoid skipping meals.",
-            "Seek medical advice if headache is severe or frequent."
+            "Get enough rest.",
+            "Stay hydrated.",
+            "Avoid bright lights.",
+            "Consult doctor if severe."
         ]
     },
     "stomach pain": {
         "disease": "Indigestion or Gastric Infection",
-        "description": "Pain in the abdomen may occur due to digestive issues or infection.",
+        "description": "Abdominal pain due to digestion issues.",
         "precautions": [
-            "Avoid spicy and oily food.",
-            "Drink clean water and stay hydrated.",
+            "Avoid spicy food.",
+            "Drink clean water.",
             "Eat light meals.",
-            "Consult a doctor if pain is severe or persistent."
+            "Consult doctor if severe."
         ]
     },
     "malaria": {
         "disease": "Malaria",
-        "description": "Malaria is caused by Plasmodium parasites transmitted through mosquito bites.",
+        "description": "A mosquito-borne disease caused by parasites.",
         "precautions": [
-            "Sleep under mosquito nets.",
-            "Avoid stagnant water near your home.",
-            "Use mosquito repellents.",
-            "Consult a doctor immediately for a blood test and treatment."
+            "Use mosquito nets.",
+            "Avoid stagnant water.",
+            "Use repellents.",
+            "Consult doctor immediately."
         ]
     }
 }
 
+# Home page
 @app.route('/')
 def home():
     return render_template('index.html')
 
 
-@app.route('/predict', methods=['POST'])
-def predict():
-    symptoms = request.form.get('symptoms', '').lower()
+# 🔥 UPDATED ROUTE (IMPORTANT)
+@app.route('/diagnosis', methods=['POST'])
+def diagnosis():
+    user_input = request.form.get('symptoms', '').lower()
 
     result = None
 
     for key in disease_data:
-        if key in symptoms:
+        if key in user_input:
             result = disease_data[key]
             break
 
-    # If disease found
+    # If found
     if result:
         return render_template(
-            "index.html",
-            symptoms=symptoms,
+            "result.html",
+            symptoms=user_input,
             disease=result["disease"],
             description=result["description"],
             precautions=result["precautions"]
         )
 
-    # If no disease found
+    # If not found
     else:
         return render_template(
-            "index.html",
-            symptoms=symptoms,
-            disease="Sorry! we'll find soon about this problem",
-            description="No matching disease found based on the symptoms provided.",
+            "result.html",
+            symptoms=user_input,
+            disease="No matching disease found",
+            description="Sorry! we couldn't identify the disease.",
             precautions=[
                 "Try entering more specific symptoms",
-                "Don't be panic and Stay calm!",
-                "Take proper rest",
-                "Consult a doctor if symptoms continue"
+                "Stay calm and take rest",
+                "Consult a doctor if needed"
             ]
         )
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000)
-
-
-
+    app.run(debug=True)
