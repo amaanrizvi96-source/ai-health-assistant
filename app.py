@@ -12,7 +12,8 @@ disease_data = {
             "Take rest and avoid exertion.",
             "Take paracetamol for high fever.",
             "Consult a doctor if fever lasts more than 3 days."
-        ]
+        ],
+        "video": "https://youtube.com/shorts/78zYCGGQ7xg?si=sAqOPnQPmuClMpN3"
     },
     "cough": {
         "disease": "Respiratory Infection or Allergic Cough",
@@ -101,7 +102,8 @@ def diagnosis():
             symptoms=user_input,
             disease=result["disease"],
             description=result["description"],
-            precautions=result["precautions"]
+            precautions=result["precautions"],
+            video=result["video"]
         )
 
     # If not found
