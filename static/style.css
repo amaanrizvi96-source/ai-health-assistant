@@ -35,10 +35,6 @@ body {
     padding: 35px;
     border-radius: 25px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease-in-out;
-}
-.container:hover {
-    transform: scale(1.02);
 }
 
 /* Intro greeting */
@@ -71,10 +67,13 @@ body {
     margin-left: 10px;
     font-size: 16px;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: all 0.3s ease;
 }
+
+/* Simple hover (clean, not over-animated) */
 .form-box button:hover {
     background: #002a80;
+    transform: scale(1.05);
 }
 
 /* Result section */
@@ -118,6 +117,8 @@ footer {
     font-size: 14px;
     box-shadow: 0 -4px 10px rgba(0,0,0,0.2);
 }
+
+/* YouTube button */
 .video-btn {
     display: inline-block;
     margin-top: 10px;
@@ -128,8 +129,31 @@ footer {
     border-radius: 5px;
 }
 
-/* Smooth fade animation */
+/* Doctor section (simple version) */
+.doctor-box {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.doctor-img {
+    width: 150px;
+    animation: float 3s ease-in-out infinite;
+}
+
+.doctor-text {
+    margin-top: 10px;
+    color: #333;
+}
+
+/* Floating animation */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Fade animation */
 @keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
